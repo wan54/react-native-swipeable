@@ -11,6 +11,8 @@ import Swipeable, {AnimatedAction} from 'react-native-swipeable';
 interface ExampleProps {
   onOpen: AnimatedAction;
   onClose: AnimatedAction;
+  onSwipeStart: AnimatedAction;
+  onSwipeRelease: AnimatedAction;
 }
 
 interface State {
@@ -43,6 +45,8 @@ export default class SwipeableExample extends Component<{}, State> {
         this.setState({currentlyOpenSwipeable: swipeable});
       },
       onClose: () => this.setState({currentlyOpenSwipeable: null}),
+      onSwipeStart: () => this.setState({isSwiping: true}),
+      onSwipeRelease: () => this.setState({isSwiping: false}),
     };
 
     return (
@@ -58,9 +62,16 @@ export default class SwipeableExample extends Component<{}, State> {
   }
 }
 
-function Example1({onOpen, onClose}: ExampleProps) {
+function Example1({
+  onOpen,
+  onClose,
+  onSwipeStart,
+  onSwipeRelease,
+}: ExampleProps) {
   return (
     <Swipeable
+      onSwipeStart={onSwipeStart}
+      onSwipeRelease={onSwipeRelease}
       leftContent={
         <View style={[styles.leftSwipeItem, {backgroundColor: 'lightskyblue'}]}>
           <Text>Pull action</Text>
@@ -85,9 +96,16 @@ function Example1({onOpen, onClose}: ExampleProps) {
   );
 }
 
-function Example2({onOpen, onClose}: ExampleProps) {
+function Example2({
+  onOpen,
+  onClose,
+  onSwipeStart,
+  onSwipeRelease,
+}: ExampleProps) {
   return (
     <Swipeable
+      onSwipeStart={onSwipeStart}
+      onSwipeRelease={onSwipeRelease}
       leftButtonWidth={45}
       leftButtons={[
         <TouchableOpacity
@@ -140,6 +158,8 @@ class Example3 extends Component<ExampleProps> {
 
     return (
       <Swipeable
+        onSwipeStart={this.props.onSwipeStart}
+        onSwipeRelease={this.props.onSwipeRelease}
         leftActionActivationDistance={200}
         leftContent={
           <View
