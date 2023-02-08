@@ -25,6 +25,11 @@ type RefFn = (instance: Swipeable) => void;
 
 type AnimatedValueFn = (pan: Animated.ValueXY) => void;
 
+type Axes = Extract<
+  Animated.TimingAnimationConfig['toValue'],
+  {x: number; y: number}
+>;
+
 interface Props {
   // elements
   children: JSX.Element;
@@ -104,10 +109,7 @@ interface Props {
 interface State {
   pan: Animated.ValueXY;
   width: number;
-  lastOffset: Extract<
-    Animated.TimingAnimationConfig['toValue'],
-    {x: number; y: number}
-  >;
+  lastOffset: Axes;
   leftActionActivated: boolean;
   leftButtonsActivated: boolean;
   leftButtonsOpen: boolean;
@@ -426,10 +428,7 @@ export default class Swipeable extends PureComponent<Props, State> {
     } = this.state;
     const animationFn = this._getReleaseAnimationFn();
     const animationConfig = this._getReleaseAnimationConfig();
-    const axes = animationConfig?.toValue as Extract<
-      AnimatedConfig['toValue'],
-      {x: number; y: number}
-    >;
+    const axes = animationConfig?.toValue as Axes;
 
     onSwipeRelease?.(event, gestureState, this);
 
