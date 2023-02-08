@@ -1,9 +1,6 @@
 BIN = ./node_modules/.bin
-SRC = $(shell find ./src -name '*.js')
-LIB = $(SRC:./src/%=lib/%)
-EXAMPLE = $(shell find ./example/*.js)
-
-build:: $(LIB)
+SRC = $(shell find ./src -name '*.ts')
+EXAMPLE = $(shell find ./example/*.ts)
 
 lint::
 	@$(BIN)/eslint $(SRC) $(EXAMPLE)
@@ -21,10 +18,9 @@ publish:
 	git push --tags origin HEAD:master
 	npm publish
 
-lib/%.js: src/%.js
-	@echo "building $@"
-	@mkdir -p $(@D)
-	@$(BIN)/babel --presets=latest,react,stage-0 --source-maps-inline -o $@ $<
+build:
+	@echo "building..."
+	@$(BIN)/tsc src/index.tsx --target es5 --outDir lib --skipLibCheck --jsx react-native --esModuleInterop --declaration $<
 
 clean:
 	@rm -rf lib/
