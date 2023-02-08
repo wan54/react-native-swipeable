@@ -403,7 +403,7 @@ export default class Swipeable extends PureComponent<Props, State> {
   _handlePanResponderEnd = (
     event: GestureResponderEvent,
     gestureState: PanResponderGestureState,
-  ): boolean => {
+  ) => {
     const {
       onLeftActionRelease,
       onLeftActionDeactivate,
